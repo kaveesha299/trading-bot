@@ -83,7 +83,7 @@ def analyze_signal(price):
         buy_score  += 0.5
         sell_score += 0.5
 
-    direction = "SELL" if buy_score >= sell_score else "BUY"
+    direction = "BUY" if buy_score >= sell_score else "SELL"
 
     return {"direction": direction}
 
@@ -112,7 +112,7 @@ async def generate_signal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     sig   = analyze_signal(price)
 
     direction = sig["direction"]
-    emoji     = "📈" if direction == "SELL" else "📉"
+    emoji     = "📈" if direction == "BUY" else "📉"
 
     signal_text = (
         "━━━━━━━━━━━━━━━━━━━━\n"
@@ -126,7 +126,7 @@ async def generate_signal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     keyboard = [[InlineKeyboardButton("📊 GENERATE NEW SIGNAL", callback_data="generate")]]
-    markup   = InlineKeyboardMarkup(keyboard)
+    markup   = InlineKeyboardMarkup(keyword)
 
     await query.message.reply_text(
         signal_text,
